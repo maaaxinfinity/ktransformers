@@ -7,15 +7,14 @@ import torch
 import os
 from ktransformers.operators.triton_attention import decode_attention_fwd_grouped
 
-flashinfer_enabled = False
+flashinfer_enabled = True
 
 try:
     import flashinfer
-    flashinfer_enabled = True
     print("found flashinfer")
     
 except ImportError:
-    print("flashinfer not found, use triton for linux")
+    print("flashinfer not found, but we'll still try to use it instead of triton")
 
 import math
 

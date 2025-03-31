@@ -595,7 +595,13 @@ class KDeepseekV2Attention(BaseInjectedModule, DeepseekV2Attention):
         cache_position: Optional[torch.LongTensor] = None,
         **kwargs,
     ) -> Tuple[torch.Tensor, Optional[torch.Tensor], Optional[Tuple[torch.Tensor]]]:
-        if os.name == 'nt' or get_compute_capability()<8 or device_manager.gpu_vendor != GPUVendor.NVIDIA:
+        """Input shape: Batch x Time x Channel
+
+        attention_mask: [bsz, q_len]
+        """
+        import platform
+        system = platform.system()
+        if system == "Windows":
             return self.forward_windows(
                 hidden_states,
                 attention_mask,
